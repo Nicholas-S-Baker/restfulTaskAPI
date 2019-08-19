@@ -1,7 +1,22 @@
-#allTasks{
+ #allTasks{
   border: 2px teal solid;
+  width: 45%;
+  vertical-align: top;
+  display: inline-block
 }
 
-#oneTask{
-  border: 2px firebrick solid;
+#updateTask{
+  border: 2px coral solid;
+  display: inline-block;
+  vertical-align: top;
+  width: 45%;
+}
+
+.taskBox{
+  border: 1px black solid;
+  width: 250px;
+  height: 100px;
+  margin-bottom: 10px;
+  background-color: grey;
+  color: aliceblue;
 }

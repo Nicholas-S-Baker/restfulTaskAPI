@@ -1,24 +1,46 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Restful Tasks API
-  </h1>
-  <button (click)="allTasksClick()">Get All Tasks</button>
+<div style="text-align:left">
+  <h2>New Task</h2>
+  <form (submit)="newSubmit()">
+    <label for="newTask.title">Title</label>
+    <input type="text" name="newTask.title" [(ngModel)]="newTask.title" /><br />
+    <label for="newTask.description"
+      >Description
+      <input
+        type="text"
+        name="newTask.description"
+        [(ngModel)]="newTask.description"
+      />
+    </label>
+    <input type="submit" value="Create Task" />
+  </form>
   <div *ngIf="tasks" id="allTasks">
-    <h2>All the tasks:</h2>
-    <div *ngFor="let task of tasks">
-      <ul>
-        <li>
-          {{ task.title }}
-          <button (click)="showClick(task._id)">Show</button>
-        </li>
-      </ul>
+    <h2>Task List</h2>
+    <div *ngFor="let task of tasks" class="taskBox">
+      <p>
+        {{ task.title }} <button (click)="editClick(task._id)">Edit</button>
+      </p>
+      <p>
+        {{ task.description }}
+        <button (click)="deleteClick(task._id)">Delete</button>
+      </p>
     </div>
   </div>
-      <div *ngIf="one_task" id="oneTask">
-        <p>{{one_task.title}}</p>
-        <p>{{one_task.description}}</p>
-      </div>
-
+  <div *ngIf="oneTask" id="updateTask">
+    <h2>Edit a Task</h2>
+    <form (submit)="editSubmit(oneTask._id)">
+        <label for="oneTask.title">Title</label>
+        <input type="text" name="oneTask.title" [(ngModel)]="oneTask.title" /><br />
+        <label for="oneTask.description"
+          >Description
+          <input
+            type="text"
+            name="oneTask.description"
+            [(ngModel)]="oneTask.description"
+          />
+        </label>
+        <input type="submit" value="Edit" />
+      </form>
+  </div>
   <router-outlet></router-outlet>
 </div>

@@ -10,14 +10,18 @@ import { HttpService } from './http.service';
 export class AppComponent implements OnInit {
   title = 'app';
   tasks: object;
-  one_task: object;
-  task_bool: boolean = false;
+  oneTask: object;
+  // update_bool: boolean = true;
+  newTask: object;
 
   constructor(private _httpService: HttpService){
     //reserve for dependency injections
   }
+
   ngOnInit(){
     //difference in this and constructor?
+    this.getTasksFromService();
+    this.newTask = {title: "", description: ""}
   }
 
   getTasksFromService(){
@@ -25,25 +29,45 @@ export class AppComponent implements OnInit {
     observable.subscribe( data => {
       console.log("Here's the Data", data)
       this.tasks = data;
-      console.log(this.tasks);
     })
   }
 
-  getOneTaskFromService(id: string){
-    console.log("******** IN GET ONE FUNC")
+  editClick(id: string): void {
     let observable = this._httpService.getOne(id);
     observable.subscribe( data =>{
-      this.one_task = data;
+      this.oneTask = data;
       console.log("Here's one", data);
     })
+  }  
+  
+  editSubmit(id: string): void{
+    console.log("***********IN UPDATE");
+    console.log(this.oneTask);
+    console.log(id);
+    let observable = this._httpService.updateTask(this.oneTask, id);
+    observable.subscribe(data => {
+      console.log("****** IN SUB", data);
+    })
+    this.getTasksFromService();
+    this.oneTask = null;
   }
 
-  allTasksClick(): void {
-    this.getTasksFromService()
-  }  
+  newSubmit(){
+    let observable = this._httpService.createTask(this.newTask);
+    observable.subscribe(data => {
+      console.log("Got data from post back", data);
+      this.newTask = {title: "", description: ""};
+    })
+    this.getTasksFromService();
+  }
+  
+  deleteClick(id: string){
+    console.log("*******IN DELETE", id)
+    let observable = this._httpService.deleteTask(id);
+    observable.subscribe(data => {
+      console.log(data)
+    })
+    this.getTasksFromService();
+  }
 
-  showClick(id: string): void {
-    console.log("********* IN SHOW CLICK");
-    this.getOneTaskFromService(id);
-  }  
 }
