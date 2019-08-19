@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpService } from './http.service';
 
 @Component({
@@ -7,9 +7,34 @@ import { HttpService } from './http.service';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'app';
+  tasks: object;
+  one_task: object;
   constructor(private _httpService: HttpService){
-    this._httpService.getTasks();
+    //reserve for dependenct injections
   }
+  ngOnInit(){
+    this.getTasksFromService()
+    this.getOneTaskFromService() 
+  }
+
+  getTasksFromService(){
+    let observable = this._httpService.getTasks();
+    observable.subscribe( data => {
+      console.log("Here's the Data", data)
+      this.tasks = data;
+      console.log(this.tasks);
+    })
+  }
+
+  getOneTaskFromService(){
+    console.log("******** IN GET ONE FUNC")
+    let observable = this._httpService.getOne();
+    observable.subscribe( data =>{
+      this.one_task = data;
+      console.log("Here's one", data)
+    })
+  }
+  
 }
