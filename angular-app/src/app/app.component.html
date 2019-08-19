@@ -15,10 +15,14 @@
       </ul>
     </div>
   </div>
-      <div *ngIf="one_task" id="oneTask">
+  <app-task *ngIf="one_task" [showClick]="one_task"></app-task> 
+
+      <!-- <div *ngIf="one_task" id="oneTask">
         <p>{{one_task.title}}</p>
         <p>{{one_task.description}}</p>
       </div>
+        This was in the original version before nesting
+    -->
 
   <router-outlet></router-outlet>
 </div>
