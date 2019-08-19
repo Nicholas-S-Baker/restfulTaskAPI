@@ -11,12 +11,13 @@ export class AppComponent implements OnInit {
   title = 'app';
   tasks: object;
   one_task: object;
+  task_bool: boolean = false;
+
   constructor(private _httpService: HttpService){
-    //reserve for dependenct injections
+    //reserve for dependency injections
   }
   ngOnInit(){
-    this.getTasksFromService()
-    this.getOneTaskFromService() 
+    //difference in this and constructor?
   }
 
   getTasksFromService(){
@@ -28,13 +29,21 @@ export class AppComponent implements OnInit {
     })
   }
 
-  getOneTaskFromService(){
+  getOneTaskFromService(id: string){
     console.log("******** IN GET ONE FUNC")
-    let observable = this._httpService.getOne();
+    let observable = this._httpService.getOne(id);
     observable.subscribe( data =>{
       this.one_task = data;
-      console.log("Here's one", data)
+      console.log("Here's one", data);
     })
   }
-  
+
+  allTasksClick(): void {
+    this.getTasksFromService()
+  }  
+
+  showClick(id: string): void {
+    console.log("********* IN SHOW CLICK");
+    this.getOneTaskFromService(id);
+  }  
 }
